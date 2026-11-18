@@ -5,13 +5,13 @@ tmp="$(mktemp -d)"
 trap 'rm -rf "$tmp"' EXIT
 cat > "$tmp/fake-mcp" <<'BIN'
 #!/usr/bin/env bash
-printf '%s\n' "$FIRECRAWL_API_URL"
+printf '%s %s\n' "$FIRECRAWL_API_URL" "${FIRECRAWL_API_KEY-unset}"
 BIN
 chmod +x "$tmp/fake-mcp"
 actual="$(FIRECRAWL_MCP_BIN="$tmp/fake-mcp" "$root/scripts/mcp-stdio.sh")"
-[[ "$actual" == 'http://127.0.0.1:3002' ]]
-actual="$(FIRECRAWL_MCP_BIN="$tmp/fake-mcp" FIRECRAWL_API_URL='http://127.0.0.1:39002' "$root/scripts/mcp-stdio.sh")"
-[[ "$actual" == 'http://127.0.0.1:39002' ]]
+[[ "$actual" == 'http://127.0.0.1:3002 unset' ]]
+actual="$(FIRECRAWL_MCP_BIN="$tmp/fake-mcp" FIRECRAWL_API_URL='https://api.firecrawl.dev' FIRECRAWL_API_KEY='synthetic-secret' "$root/scripts/mcp-stdio.sh")"
+[[ "$actual" == 'http://127.0.0.1:3002 unset' ]]
 node -e '
 const assert = require("node:assert/strict");
 const p = require(process.argv[1]);
