@@ -13,14 +13,14 @@ This is preferable to a custom scraper because it keeps the Firecrawl API and to
 ## Parts
 
 - `scripts/deploy.sh` checks out the pinned upstream release, creates a private environment file, builds and starts the stack, and installs the pinned MCP package.
-- `deploy/compose.override.yaml` binds the API to VPS loopback, disables the optional FoundationDB services on ARM64, and adds durable volumes for PostgreSQL, Redis, and RabbitMQ.
+- `deploy/compose.override.yaml` binds the API to VPS loopback, adds an internal SearXNG search service, disables the optional FoundationDB services on ARM64, and adds durable volumes for PostgreSQL, Redis, and RabbitMQ.
 - `scripts/mcp-stdio.sh` starts the official MCP package with `FIRECRAWL_API_URL=http://127.0.0.1:3002` on the VPS.
 - Local Codex and Claude Code register an SSH stdio command that runs this script. SSH authenticates the user. The API has no public listener.
 - Smoke checks cover the API health endpoint, one real scrape, search, MCP tool discovery, and one MCP tool call in each client.
 
 ## Limits
 
-Firecrawl self-hosting includes core scrape, crawl, map, and search routes. Agent, browser interaction, some advanced anti-bot features, and specialized extraction are not in the default self-hosted stack. Search quality can depend on the available search provider. VPS operation has compute and storage costs. The public repository must contain no credentials, job-search database, or candidate documents.
+Firecrawl self-hosting includes core scrape, crawl, map, and search routes. Agent, browser interaction, some advanced anti-bot features, and specialized extraction are not in the default self-hosted stack. SearXNG search quality depends on the public engines it queries. Results can include closed job links. VPS operation has compute and storage costs. The public repository must contain no credentials, job-search database, or candidate documents.
 
 Claude means the installed Claude Code client. Claude.ai web would need a public HTTPS endpoint or a supported private tunnel and a separate connection flow.
 

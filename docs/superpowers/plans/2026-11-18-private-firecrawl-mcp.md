@@ -4,7 +4,7 @@
 
 **Goal:** Deploy self-hosted Firecrawl on `my-vps` and connect local Codex and Claude Code through private SSH MCP.
 
-**Architecture:** The public repository pins the upstream Firecrawl release and the official npm MCP package. Docker Compose runs the backend on VPS loopback. An SSH stdio command starts MCP on demand for each local client.
+**Architecture:** The public repository pins the upstream Firecrawl release and the official npm MCP package. Docker Compose runs the backend on VPS loopback and SearXNG inside its private network. An SSH stdio command starts MCP on demand for each local client.
 
 **Tech Stack:** Docker Compose, Bash, Node.js 24, npm, SSH, Firecrawl `v2.11.162`, `firecrawl-mcp` `3.24.0`.
 
