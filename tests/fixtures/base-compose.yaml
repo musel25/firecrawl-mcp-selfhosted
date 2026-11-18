@@ -1,5 +1,7 @@
 name: firecrawl
 services:
+  playwright-service:
+    image: busybox
   api:
     image: busybox
     ports:

@@ -11,6 +11,9 @@ assert.equal(data.services.api.ports[0].host_ip, "127.0.0.1");
 assert.equal(data.services.api.environment.SEARXNG_ENDPOINT, "http://searxng:8080");
 assert.ok(data.services.searxng);
 assert.equal(data.services.searxng.ports, undefined);
+for (const name of ["api", "redis", "rabbitmq", "nuq-postgres", "playwright-service", "searxng"]) {
+  assert.equal(data.services[name].restart, "unless-stopped", name);
+}
 assert.equal(data.services.foundationdb, undefined);
 assert.equal(data.services["foundationdb-init"], undefined);
 assert.ok(data.services.redis.volumes.some(v => v.target === "/data"));
