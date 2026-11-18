@@ -1,0 +1,22 @@
+services:
+  api:
+    ports: !override
+      - "127.0.0.1:3002:3002"
+  redis:
+    command: redis-server --appendonly yes --bind 0.0.0.0
+    volumes:
+      - redis-data:/data
+  rabbitmq:
+    volumes:
+      - rabbitmq-data:/var/lib/rabbitmq
+  nuq-postgres:
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+  foundationdb:
+    profiles: [fdb]
+  foundationdb-init:
+    profiles: [fdb]
+volumes:
+  redis-data:
+  rabbitmq-data:
+  postgres-data:

@@ -1,0 +1,16 @@
+name: firecrawl
+services:
+  api:
+    image: busybox
+    ports:
+      - "3002:3002"
+  redis:
+    image: redis:alpine
+  rabbitmq:
+    image: rabbitmq:3-management
+  nuq-postgres:
+    image: postgres:17
+  foundationdb:
+    image: busybox
+  foundationdb-init:
+    image: busybox
