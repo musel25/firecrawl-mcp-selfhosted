@@ -14,3 +14,5 @@ services:
     image: busybox
   foundationdb-init:
     image: busybox
+networks:
+  backend:

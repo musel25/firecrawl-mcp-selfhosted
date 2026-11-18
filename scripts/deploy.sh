@@ -31,6 +31,10 @@ POSTGRES_PASSWORD=$secret
 POSTGRES_DB=postgres
 ENV
   fi
+  if ! grep -q "^SEARXNG_SECRET=" "$root/.env"; then
+    printf "SEARXNG_SECRET=%s\n" "$(openssl rand -hex 32)" >> "$root/.env"
+  fi
+  chmod 600 "$root/.env"
   npm ci --prefix "$root" --omit=dev
 fi
 
@@ -39,6 +43,7 @@ if [[ ! -f "$root/.env" ]] || [[ ! -f "$upstream/docker-compose.yaml" ]]; then
   exit 1
 fi
 
+export FIRECRAWL_DEPLOY_ROOT="$root"
 compose=(docker compose --project-directory "$upstream" --env-file "$root/.env" -f "$upstream/docker-compose.yaml" -f "$root/deploy/compose.override.yaml")
 "${compose[@]}" config --quiet
 
