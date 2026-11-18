@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 root="$(cd "$(dirname "$0")/.." && pwd)"
-config="$(FIRECRAWL_DEPLOY_ROOT="$root" docker compose -f "$root/tests/fixtures/base-compose.yaml" -f "$root/deploy/compose.override.yaml" config --format json)"
+config="$(FIRECRAWL_DEPLOY_ROOT="$root" SEARXNG_SECRET=fixture-secret docker compose -f "$root/tests/fixtures/base-compose.yaml" -f "$root/deploy/compose.override.yaml" config --format json)"
 node -e '
 const assert = require("node:assert/strict");
 const fs = require("node:fs");
@@ -20,7 +20,7 @@ assert.ok(data.services.redis.volumes.some(v => v.target === "/data"));
 assert.ok(data.services.rabbitmq.volumes.some(v => v.target === "/var/lib/rabbitmq"));
 assert.ok(data.services["nuq-postgres"].volumes.some(v => v.target === "/var/lib/postgresql/data"));
 ' <<< "$config"
-profiled="$(FIRECRAWL_DEPLOY_ROOT="$root" docker compose --profile fdb -f "$root/tests/fixtures/base-compose.yaml" -f "$root/deploy/compose.override.yaml" config --format json)"
+profiled="$(FIRECRAWL_DEPLOY_ROOT="$root" SEARXNG_SECRET=fixture-secret docker compose --profile fdb -f "$root/tests/fixtures/base-compose.yaml" -f "$root/deploy/compose.override.yaml" config --format json)"
 node -e '
 const assert = require("node:assert/strict");
 const fs = require("node:fs");
@@ -29,4 +29,8 @@ assert.deepEqual(data.services.foundationdb.profiles, ["fdb"]);
 assert.deepEqual(data.services["foundationdb-init"].profiles, ["fdb"]);
 ' <<< "$profiled"
 grep -q -- "- json" "$root/deploy/searxng-settings.yml"
+if FIRECRAWL_DEPLOY_ROOT="$root" SEARXNG_SECRET= docker compose -f "$root/tests/fixtures/base-compose.yaml" -f "$root/deploy/compose.override.yaml" config --quiet >/dev/null 2>&1; then
+  echo "Compose accepted an empty SearXNG secret" >&2
+  exit 1
+fi
 bash -n "$root/scripts/deploy.sh"

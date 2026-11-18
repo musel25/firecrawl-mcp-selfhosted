@@ -31,9 +31,16 @@ child.stdout.on('data', (chunk) => {
       finished = true;
       clearTimeout(timeout);
       const result = message.result;
-      const content = JSON.stringify(result?.content ?? []);
-      console.log(JSON.stringify({ tool, isError: result?.isError ?? false, contentLength: content.length, excerpt: content.slice(0, 500) }));
-      if (message.error || result?.isError || content.length < 50) process.exitCode = 1;
+      const raw = result?.content?.find((item) => item.type === 'text')?.text;
+      let payload;
+      try { payload = JSON.parse(raw); } catch { payload = undefined; }
+      const count = payload?.data?.web?.length ?? 0;
+      const markdownLength = payload?.markdown?.length ?? 0;
+      const valid = tool === 'firecrawl_search'
+        ? payload?.success === true && count > 0
+        : markdownLength > 0;
+      console.log(JSON.stringify({ tool, isError: result?.isError ?? false, resultCount: count, markdownLength }));
+      if (message.error || result?.isError || !valid) process.exitCode = 1;
       child.stdin.end();
       child.kill();
     }

@@ -33,7 +33,7 @@ services:
     networks:
       - backend
     environment:
-      SEARXNG_SECRET: ${SEARXNG_SECRET:-temporary-secret-for-config-check}
+      SEARXNG_SECRET: ${SEARXNG_SECRET:?set SEARXNG_SECRET in .env}
     volumes:
       - "${FIRECRAWL_DEPLOY_ROOT:?}/deploy/searxng-settings.yml:/etc/searxng/settings.yml:ro"
 volumes:
