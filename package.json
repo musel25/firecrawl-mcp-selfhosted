@@ -1,0 +1,28 @@
+{
+  "name": "firecrawl-mcp-selfhosted",
+  "version": "1.0.0",
+  "description": "Private VPS bridge for Firecrawl MCP",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs",
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "bash tests/deploy.sh && bash tests/mcp-stdio.sh"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/musel25/firecrawl-mcp-selfhosted.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/musel25/firecrawl-mcp-selfhosted/issues"
+  },
+  "homepage": "https://github.com/musel25/firecrawl-mcp-selfhosted#readme",
+  "private": "true",
+  "dependencies": {
+    "firecrawl-mcp": "3.40.0"
+  }
+}

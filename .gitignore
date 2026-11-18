@@ -4,3 +4,4 @@
 *.log
 .upstream/
 .runtime/
+node_modules/
