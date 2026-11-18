@@ -8,7 +8,9 @@
     "test": "tests"
   },
   "scripts": {
-    "test": "bash tests/deploy.sh && bash tests/mcp-stdio.sh"
+    "test": "bash tests/deploy.sh && bash tests/mcp-stdio.sh",
+    "smoke:search": "node scripts/smoke-mcp.mjs search",
+    "smoke:scrape": "node scripts/smoke-mcp.mjs scrape"
   },
   "repository": {
     "type": "git",
@@ -23,6 +25,12 @@
   "homepage": "https://github.com/musel25/firecrawl-mcp-selfhosted#readme",
   "private": "true",
   "dependencies": {
-    "firecrawl-mcp": "3.40.0"
+    "firecrawl-mcp": "3.24.0"
+  },
+  "overrides": {
+    "axios": "1.21.1",
+    "@mendable/firecrawl-js": "4.54.0",
+    "firecrawl": "4.54.0",
+    "zod": "4.6.7"
   }
 }

@@ -16,6 +16,6 @@ node -e '
 const assert = require("node:assert/strict");
 const p = require(process.argv[1]);
 const l = require(process.argv[2]);
-assert.equal(p.dependencies["firecrawl-mcp"], "3.40.0");
-assert.equal(l.packages["node_modules/firecrawl-mcp"].version, "3.40.0");
+assert.equal(p.dependencies["firecrawl-mcp"], "3.24.0");
+assert.equal(l.packages["node_modules/firecrawl-mcp"].version, "3.24.0");
 ' "$root/package.json" "$root/package-lock.json"
